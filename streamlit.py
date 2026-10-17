@@ -10,8 +10,8 @@ from torchvision import transforms
 from model import OilSpillSegmentation
 
 
-CHECKPOINT = Path(__file__).parent / "weights" / "osd_gulfs_mvd_72068_shuffle.ckpt"
-DEFAULT_THRESHOLD = 0.5
+CHECKPOINT = Path(__file__).parent / "weights.ckpt"
+DEFAULT_THRESHOLD = 0.55
 
 
 st.set_page_config(
