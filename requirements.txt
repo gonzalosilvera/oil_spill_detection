@@ -1,0 +1,7 @@
+streamlit
+torch
+torchvision
+numpy
+Pillow
+pytorch-lightning
+torchmetrics
