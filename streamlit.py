@@ -10,8 +10,13 @@ from torchvision import transforms
 from model import OilSpillSegmentation
 
 
-CHECKPOINT = Path(__file__).parent / "weights.ckpt"
-DEFAULT_THRESHOLD = 0.55
+CHECKPOINT = Path(__file__).parent / "weights" / "osd_gulfs_mvd_72068_shuffle.ckpt"
+DEFAULT_THRESHOLD = 0.5
+SAMPLE_IMAGES = {
+    "Golfo de México": Path(__file__).parent / "dataset" / "no_split" / "gm" / "sat" / "10001_sat.jpg",
+    "Golfo Pérsico": Path(__file__).parent / "dataset" / "no_split" / "gp" / "sat" / "20001_sat.jpg",
+    "Bahía de Montevideo": Path(__file__).parent / "dataset" / "no_split" / "mvd" / "sat" / "mvd_10000_sat.jpg",
+}
 
 
 st.set_page_config(
@@ -83,21 +88,31 @@ with st.sidebar:
     st.caption(f"Modelo: `{CHECKPOINT.name}`")
     st.caption("La cobertura se calcula como píxeles detectados / píxeles totales.")
 
-uploaded_file = st.file_uploader(
-    "Elegí una imagen satelital",
-    type=["jpg", "jpeg", "png", "tif", "tiff"],
-    help="Se aceptan imágenes JPG, PNG y TIFF.",
+image_choice = st.selectbox(
+    "Elegí una imagen para visualizar",
+    ["Subir una imagen", *SAMPLE_IMAGES.keys()],
 )
+
+uploaded_file = None
+if image_choice == "Subir una imagen":
+    uploaded_file = st.file_uploader(
+        "Elegí una imagen satelital",
+        type=["jpg", "jpeg", "png", "tif", "tiff"],
+        help="Se aceptan imágenes JPG, PNG y TIFF.",
+    )
 if not CHECKPOINT.is_file():
     st.error(f"No se encontró el checkpoint del modelo: `{CHECKPOINT}`")
     st.stop()
 
-if uploaded_file is None:
+if image_choice == "Subir una imagen" and uploaded_file is None:
     st.info("Cargá una imagen para comenzar el análisis.")
     st.caption("El porcentaje es la fracción de píxeles clasificados como derrame; no es un área física en km².")
 else:
     try:
-        image = Image.open(uploaded_file)
+        if image_choice == "Subir una imagen":
+            image = Image.open(uploaded_file)
+        else:
+            image = Image.open(SAMPLE_IMAGES[image_choice])
         image.load()
         if image.width < 8 or image.height < 8:
             st.error("La imagen debe tener al menos 8 × 8 píxeles para procesarse.")
