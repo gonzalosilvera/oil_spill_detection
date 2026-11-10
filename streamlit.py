@@ -13,9 +13,9 @@ from model import OilSpillSegmentation
 CHECKPOINT = Path(__file__).parent / "weights" / "osd_gulfs_mvd_72068_shuffle.ckpt"
 DEFAULT_THRESHOLD = 0.5
 SAMPLE_IMAGES = {
-    "Golfo de México": Path(__file__).parent / "dataset" / "no_split" / "gm" / "sat" / "10001_sat.jpg",
-    "Golfo Pérsico": Path(__file__).parent / "dataset" / "no_split" / "gp" / "sat" / "20001_sat.jpg",
-    "Bahía de Montevideo": Path(__file__).parent / "dataset" / "no_split" / "mvd" / "sat" / "mvd_10000_sat.jpg",
+    "Golfo de México": Path(__file__).parent / "images" / "10001_sat.jpg",
+    "Golfo Pérsico": Path(__file__).parent / "images" / "20001_sat.jpg",
+    "Bahía de Montevideo": Path(__file__).parent / "images" / "mvd_10000_sat.jpg",
 }
 
 
