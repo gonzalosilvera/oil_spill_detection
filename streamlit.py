@@ -62,7 +62,7 @@ def predict(image: Image.Image, model: OilSpillSegmentation, threshold: float):
             )
         probabilities = probabilities.squeeze().cpu().numpy()
 
-    mask = probabilities >= threshold
+    mask = probabilities > threshold
     return mask, probabilities
 
 
